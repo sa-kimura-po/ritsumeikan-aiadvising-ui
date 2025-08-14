@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R-AI - 立命館大学AIアドバイジングシステム</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- ヘッダー -->
+        <header class="header">
+            <div class="header-left">
+                <h1 class="app-title">R-AI</h1>
+                <span class="subtitle">立命館大学AIアドバイジングシステム</span>
+            </div>
+            <div class="header-right">
+                <span class="user-info" id="userInfo">ログイン中...</span>
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> ログアウト
+                </button>
+            </div>
+        </header>
+
+        <div class="main-container">
+            <!-- 左サイドバー -->
+            <aside class="sidebar">
+                <div class="sidebar-content">
+                    <button class="new-chat-btn" id="newChatBtn">
+                        <i class="fas fa-plus"></i> 新しく会話をはじめる
+                    </button>
+                    
+                    <div class="chat-history">
+                        <h3>チャット履歴</h3>
+                        <div class="history-list" id="historyList">
+                            <!-- チャット履歴がここに動的に追加される -->
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- メインチャットエリア -->
+            <main class="chat-container">
+                <div class="chat-header">
+                    <h2 id="chatTitle">新しいチャット</h2>
+                </div>
+                
+                <div class="chat-messages" id="chatMessages">
+                    <div class="welcome-message">
+                        <div class="ai-message">
+                            <div class="message-avatar">
+                                <i class="fas fa-robot ai-icon"></i>
+                            </div>
+                            <div class="message-content">
+                                <div class="message-text">
+                                    こんにちは！R-AIです。<br>
+                                    授業の感想や学んだことを入力して、コンピテンシー評価を受けることができます。<br>
+                                    何でもお気軽にお話しください。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-input-container">
+                    <div class="input-wrapper">
+                        <textarea 
+                            id="chatInput" 
+                            placeholder="授業の感想や学んだことを入力してください（100〜400文字程度）..."
+                            maxlength="16000"
+                            rows="3"
+                        ></textarea>
+                        <div class="char-counter">
+                            <span id="charCount">0</span> / 16000
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button class="send-btn chat-btn" id="chatSendBtn">
+                            <i class="fas fa-paper-plane"></i> 送信
+                        </button>
+                        <button class="send-btn competency-btn" id="competencyBtn">
+                            <i class="fas fa-chart-line"></i> コンピテンシー評価
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- ローディング表示 -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>AIが応答を生成中...</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+# Flask Webフレームワーク
+Flask==2.3.3
+Flask-CORS==4.0.0
+
+# 認証・JWT
+PyJWT==2.8.0
+cryptography==41.0.4
+
+# Azure SDK
+azure-cosmos==4.5.0
+azure-identity==1.14.0
+
+# OpenAI
+openai==0.28.1
+
+# SharePoint連携（オプション）
+Office365-REST-Python-Client==2.4.2
+
+# HTTP requests
+requests==2.31.0
+
+# 日付・時刻処理
+python-dateutil==2.8.2
+
+# 設定管理
+python-dotenv==1.0.0
+
+# ログ
+structlog==23.1.0
+
+# 開発・テスト
+pytest==7.4.2
+pytest-cov==4.1.0
+black==23.7.0
+flake8==6.0.0
+
+# 型ヒント
+mypy==1.5.1
