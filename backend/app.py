@@ -1,5 +1,6 @@
 """
 立命館大学AIアドバイジングシステム - バックエンドAPI
+Updated: 2024-08-14 - New competency evaluation format
 """
 from flask import Flask, request, jsonify
 from flask_cors import CORS
