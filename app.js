@@ -88,7 +88,7 @@ class RAIChat {
         this.charCount.textContent = count;
         
         // ボタンの有効/無効制御
-        const hasText = count > 0 && count.trim() !== '';
+        const hasText = count > 0 && this.chatInput.value.trim() !== '';
         this.chatSendBtn.disabled = !hasText || this.isLoading;
         this.competencyBtn.disabled = !hasText || this.isLoading;
     }
