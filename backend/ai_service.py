@@ -294,10 +294,10 @@ class AIService:
         ]
         
         # レスポンス生成
-        response = "【コンピテンシー評価結果】\n\n"
+        response = "コンピテンシー評価結果\n\n"
         
-        # ①エピソード分析
-        response += "①入力いただいた内容から以下のエピソードが分析されます。\n"
+        # 【1】エピソード分析
+        response += "【1】入力内容から以下のエピソードが分析されました。\n"
         response += "● 成し遂げたこととその達成度\n"
         selected_achievements = random.sample(achievements, 2)
         for achievement in selected_achievements:
@@ -308,20 +308,18 @@ class AIService:
         for turning_point in selected_turning_points:
             response += f"- {turning_point}。\n"
         
-        # ②コンピテンシー評価
-        response += "\n②入力いただいた内容から、以下のコンピテンシーが特に発揮されていると評価されました\n"
+        # 【2】コンピテンシー評価
+        response += "\n【2】入力内容から、以下のコンピテンシーが特に発揮されていると評価されました。\n"
         
-        for i, comp in enumerate(selected):
-            prefix = f"{i+1}." if i == 0 else "◆"
-            response += f"{prefix}({comp['code']}): {comp['name']}\n"
+        for comp in selected:
+            response += f"◆({comp['code']}): {comp['name']}\n"
             response += f"- {self._generate_competency_detail(comp, user_message)}\n\n"
         
         # 総評
         response += "【総評】\n"
         selected_advice = random.choice(advice_topics)
-        response += f"● {selected_advice[0]}\n"
-        response += f"- {selected_advice[1]}。\n"
-        response += "- また、学んだことを他の学生と共有することで、相互の学習効果を高めることができます。"
+        response += f"■{selected_advice[0]}\n"
+        response += f"- {selected_advice[1]}。"
         
         return response
     
