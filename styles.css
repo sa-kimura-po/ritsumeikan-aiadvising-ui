@@ -297,6 +297,25 @@ body {
     white-space: pre-wrap;
 }
 
+/* コンピテンシー評価結果の特別スタイリング */
+.ai-message .message-content .message-text {
+    font-family: inherit;
+}
+
+.ai-message .message-content .message-text br {
+    line-height: 1.8;
+}
+
+/* コンピテンシー評価結果内の見出しスタイル */
+.ai-message .message-content .message-text {
+    word-break: break-word;
+}
+
+/* 星評価の見やすさ向上 */
+.message-text {
+    font-variant-numeric: tabular-nums;
+}
+
 .message-time {
     font-size: 11px;
     color: var(--text-secondary);

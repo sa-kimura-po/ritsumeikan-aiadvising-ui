@@ -233,12 +233,15 @@ class RAIChat {
             minute: '2-digit'
         });
 
+        // 改行文字をHTMLの改行に変換
+        const formattedText = text.replace(/\\n/g, '<br>').replace(/\n/g, '<br>');
+
         if (sender === 'user') {
             messageElement.classList.add('user-message');
             messageElement.innerHTML = `
                 <div class="message-content">
                     ${isCompetencyEvaluation ? '<div class="competency-indicator"><i class="fas fa-chart-line"></i> コンピテンシー評価</div>' : ''}
-                    <div class="message-text">${text}</div>
+                    <div class="message-text">${formattedText}</div>
                     <div class="message-time">${timestamp}</div>
                 </div>
                 <div class="message-avatar user-avatar">
@@ -253,7 +256,7 @@ class RAIChat {
                 </div>
                 <div class="message-content">
                     ${isCompetencyEvaluation ? '<div class="competency-indicator"><i class="fas fa-chart-line"></i> コンピテンシー評価結果</div>' : ''}
-                    <div class="message-text">${text}</div>
+                    <div class="message-text">${formattedText}</div>
                     <div class="message-time">${timestamp}</div>
                 </div>
             `;
@@ -381,12 +384,15 @@ class RAIChat {
             minute: '2-digit'
         });
 
+        // 改行文字をHTMLの改行に変換
+        const formattedText = message.text.replace(/\\n/g, '<br>').replace(/\n/g, '<br>');
+
         if (message.sender === 'user') {
             messageElement.classList.add('user-message');
             messageElement.innerHTML = `
                 <div class="message-content">
                     ${message.isCompetencyEvaluation ? '<div class="competency-indicator"><i class="fas fa-chart-line"></i> コンピテンシー評価</div>' : ''}
-                    <div class="message-text">${message.text}</div>
+                    <div class="message-text">${formattedText}</div>
                     <div class="message-time">${timestamp}</div>
                 </div>
                 <div class="message-avatar user-avatar">
@@ -401,7 +407,7 @@ class RAIChat {
                 </div>
                 <div class="message-content">
                     ${message.isCompetencyEvaluation ? '<div class="competency-indicator"><i class="fas fa-chart-line"></i> コンピテンシー評価結果</div>' : ''}
-                    <div class="message-text">${message.text}</div>
+                    <div class="message-text">${formattedText}</div>
                     <div class="message-time">${timestamp}</div>
                 </div>
             `;
