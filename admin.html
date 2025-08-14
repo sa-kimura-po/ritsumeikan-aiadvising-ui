@@ -13,7 +13,7 @@
         <!-- ヘッダー -->
         <header class="admin-header">
             <div class="header-left">
-                <h1 class="app-title">R-AI 教員管理画面</h1>
+                <h1 class="app-title">R-AI 教職員画面</h1>
                 <span class="subtitle">立命館大学AIアドバイジングシステム</span>
             </div>
             <div class="header-right">
@@ -30,21 +30,9 @@
                 <nav class="sidebar-nav">
                     <ul>
                         <li class="nav-item active">
-                            <a href="#dashboard" class="nav-link" data-section="dashboard">
-                                <i class="fas fa-tachometer-alt"></i>
-                                <span>ダッシュボード</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a href="#export" class="nav-link" data-section="export">
                                 <i class="fas fa-download"></i>
-                                <span>データエクスポート</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#analytics" class="nav-link" data-section="analytics">
-                                <i class="fas fa-chart-bar"></i>
-                                <span>利用統計</span>
+                                <span>コンピテンシー評価エクスポート</span>
                             </a>
                         </li>
                     </ul>
@@ -53,82 +41,11 @@
 
             <!-- メインコンテンツ -->
             <main class="admin-content">
-                <!-- ダッシュボード -->
-                <section id="dashboard" class="content-section active">
+
+                <!-- コンピテンシー評価エクスポート -->
+                <section id="export" class="content-section active">
                     <div class="section-header">
-                        <h2>ダッシュボード</h2>
-                        <p>システムの概要と最近の活動状況</p>
-                    </div>
-
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-comments"></i>
-                            </div>
-                            <div class="stat-content">
-                                <h3 id="totalMessages">-</h3>
-                                <p>総チャット数</p>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                            <div class="stat-content">
-                                <h3 id="competencyEvaluations">-</h3>
-                                <p>コンピテンシー評価数</p>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div class="stat-content">
-                                <h3 id="activeUsers">-</h3>
-                                <p>アクティブユーザー数</p>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-calendar"></i>
-                            </div>
-                            <div class="stat-content">
-                                <h3 id="lastUpdated">-</h3>
-                                <p>最終更新</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="dashboard-info">
-                        <div class="info-card">
-                            <h3>システム概要</h3>
-                            <p>R-AIは立命館大学の学生がピアサポート論の授業で使用するAIアドバイジングシステムです。</p>
-                            <ul>
-                                <li>学生の授業感想・学びの入力</li>
-                                <li>AIによるコンピテンシー評価</li>
-                                <li>評価結果の教員への共有</li>
-                            </ul>
-                        </div>
-                        <div class="info-card">
-                            <h3>コンピテンシー定義</h3>
-                            <div class="competency-list">
-                                <div class="competency-item">しなやかさ - 困難から学び立ち直る力</div>
-                                <div class="competency-item">自発性 - 主体的に目標に取り組む力</div>
-                                <div class="competency-item">チームワーク - 他者と協力する力</div>
-                                <div class="competency-item">自己効力感 - 自分を信じ問題解決する力</div>
-                                <div class="competency-item">理解力 - 科学的に物事を理解する力</div>
-                                <div class="competency-item">マルチタスキング - 複数課題にバランスよく取り組む力</div>
-                                <div class="competency-item">共感力 - 他者の心に寄り添う力</div>
-                                <div class="competency-item">変革力 - 新しい考えで変化を生み出す力</div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- データエクスポート -->
-                <section id="export" class="content-section">
-                    <div class="section-header">
-                        <h2>データエクスポート</h2>
+                        <h2>コンピテンシー評価エクスポート</h2>
                         <p>コンピテンシー評価結果をCSV形式でダウンロード</p>
                     </div>
 
@@ -195,41 +112,6 @@
                     </div>
                 </section>
 
-                <!-- 利用統計 -->
-                <section id="analytics" class="content-section">
-                    <div class="section-header">
-                        <h2>利用統計</h2>
-                        <p>システムの利用状況とトレンド分析</p>
-                    </div>
-
-                    <div class="analytics-content">
-                        <div class="chart-container">
-                            <h3>月別利用推移</h3>
-                            <p>今後の実装で利用グラフを表示予定</p>
-                            <div class="chart-placeholder">
-                                <i class="fas fa-chart-area"></i>
-                                <p>Chart.jsを使用してグラフを表示予定</p>
-                            </div>
-                        </div>
-                        <div class="analytics-details">
-                            <h3>詳細統計</h3>
-                            <div class="detail-stats">
-                                <div class="detail-item">
-                                    <span class="label">平均評価実行時間:</span>
-                                    <span class="value" id="avgEvaluationTime">-</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="label">最も評価された コンピテンシー:</span>
-                                    <span class="value" id="topCompetency">-</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="label">平均入力文字数:</span>
-                                    <span class="value" id="avgMessageLength">-</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
             </main>
         </div>
     </div>

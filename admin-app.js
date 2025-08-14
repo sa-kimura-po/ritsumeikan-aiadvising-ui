@@ -1,13 +1,13 @@
 class RAIAdminPanel {
     constructor() {
         this.currentUser = null;
-        this.currentSection = 'dashboard';
+        this.currentSection = 'export';
         this.apiBaseUrl = 'http://localhost:5000/api';
         
         this.initializeElements();
         this.attachEventListeners();
         this.initializeAuth();
-        this.loadDashboard();
+        this.initializeExport();
     }
 
     initializeElements() {
@@ -16,12 +16,6 @@ class RAIAdminPanel {
         this.logoutBtn = document.getElementById('logoutBtn');
         this.navLinks = document.querySelectorAll('.nav-link');
         this.contentSections = document.querySelectorAll('.content-section');
-        
-        // 統計表示要素
-        this.totalMessages = document.getElementById('totalMessages');
-        this.competencyEvaluations = document.getElementById('competencyEvaluations');
-        this.activeUsers = document.getElementById('activeUsers');
-        this.lastUpdated = document.getElementById('lastUpdated');
         
         // エクスポート関連
         this.startDate = document.getElementById('startDate');
@@ -32,24 +26,10 @@ class RAIAdminPanel {
         this.previewArea = document.getElementById('previewArea');
         this.previewTableBody = document.getElementById('previewTableBody');
         
-        // 分析用要素
-        this.avgEvaluationTime = document.getElementById('avgEvaluationTime');
-        this.topCompetency = document.getElementById('topCompetency');
-        this.avgMessageLength = document.getElementById('avgMessageLength');
-        
         this.loadingOverlay = document.getElementById('loadingOverlay');
     }
 
     attachEventListeners() {
-        // ナビゲーション
-        this.navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const section = link.dataset.section;
-                this.navigateToSection(section);
-            });
-        });
-
         // ログアウト
         this.logoutBtn.addEventListener('click', () => this.logout());
 
@@ -60,6 +40,11 @@ class RAIAdminPanel {
 
         // 日付の初期値設定
         this.setDefaultDates();
+    }
+
+    initializeExport() {
+        // エクスポート画面を表示（現在は唯一の画面なので特別な処理は不要）
+        this.currentSection = 'export';
     }
 
     setDefaultDates() {
@@ -114,70 +99,6 @@ class RAIAdminPanel {
         }
     }
 
-    navigateToSection(section) {
-        // ナビゲーション状態更新
-        this.navLinks.forEach(link => {
-            link.parentElement.classList.remove('active');
-        });
-        
-        document.querySelector(`[data-section="${section}"]`).parentElement.classList.add('active');
-        
-        // セクション表示更新
-        this.contentSections.forEach(sec => {
-            sec.classList.remove('active');
-        });
-        
-        document.getElementById(section).classList.add('active');
-        this.currentSection = section;
-
-        // セクション固有の処理
-        switch (section) {
-            case 'dashboard':
-                this.loadDashboard();
-                break;
-            case 'analytics':
-                this.loadAnalytics();
-                break;
-        }
-    }
-
-    async loadDashboard() {
-        try {
-            this.setLoading(true);
-            
-            // モックデータ（実際の実装ではAPIから取得）
-            const stats = await this.fetchUsageStatistics();
-            
-            this.updateStatistics(stats);
-            
-        } catch (error) {
-            console.error('Dashboard load error:', error);
-            this.showError('ダッシュボードの読み込みに失敗しました');
-        } finally {
-            this.setLoading(false);
-        }
-    }
-
-    async fetchUsageStatistics() {
-        // モックデータ
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        return {
-            total_messages: 234,
-            competency_evaluations: 87,
-            active_users: 42,
-            updated_at: new Date().toISOString()
-        };
-    }
-
-    updateStatistics(stats) {
-        this.totalMessages.textContent = stats.total_messages.toLocaleString();
-        this.competencyEvaluations.textContent = stats.competency_evaluations.toLocaleString();
-        this.activeUsers.textContent = stats.active_users.toLocaleString();
-        
-        const updateDate = new Date(stats.updated_at);
-        this.lastUpdated.textContent = updateDate.toLocaleDateString('ja-JP');
-    }
 
     async previewData() {
         try {
@@ -340,24 +261,6 @@ class RAIAdminPanel {
         return '\\uFEFF' + csvContent; // BOM for Excel compatibility
     }
 
-    async loadAnalytics() {
-        try {
-            this.setLoading(true);
-            
-            // モック分析データ
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            this.avgEvaluationTime.textContent = '2分15秒';
-            this.topCompetency.textContent = '共感力';
-            this.avgMessageLength.textContent = '186文字';
-            
-        } catch (error) {
-            console.error('Analytics load error:', error);
-            this.showError('分析データの読み込みに失敗しました');
-        } finally {
-            this.setLoading(false);
-        }
-    }
 
     setLoading(isLoading) {
         this.loadingOverlay.style.display = isLoading ? 'flex' : 'none';
