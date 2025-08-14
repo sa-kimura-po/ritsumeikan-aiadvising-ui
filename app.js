@@ -18,6 +18,7 @@ class RAIChat {
         this.competencyBtn = document.getElementById('competencyBtn');
         this.newChatBtn = document.getElementById('newChatBtn');
         this.logoutBtn = document.getElementById('logoutBtn');
+        this.clearAllBtn = document.getElementById('clearAllBtn');
         this.chatMessages = document.getElementById('chatMessages');
         this.historyList = document.getElementById('historyList');
         this.chatTitle = document.getElementById('chatTitle');
@@ -32,6 +33,7 @@ class RAIChat {
         this.competencyBtn.addEventListener('click', () => this.sendMessage(true));
         this.newChatBtn.addEventListener('click', () => this.startNewChat());
         this.logoutBtn.addEventListener('click', () => this.logout());
+        this.clearAllBtn.addEventListener('click', () => this.clearAllHistory());
         
         // 入力エリアのイベント
         this.chatInput.addEventListener('input', () => this.updateCharCounter());
@@ -395,16 +397,71 @@ class RAIChat {
             });
             
             historyItem.innerHTML = `
-                <div class="history-title">
-                    ${chat.hasCompetencyEvaluation ? '<i class="fas fa-chart-line" style="color: var(--ritsumeikan-red); margin-right: 4px;"></i>' : ''}
-                    ${chat.title}
+                <div class="history-content">
+                    <div class="history-title">
+                        ${chat.hasCompetencyEvaluation ? '<i class="fas fa-chart-line" style="color: var(--ritsumeikan-red); margin-right: 4px;"></i>' : ''}
+                        ${chat.title}
+                    </div>
+                    <div class="history-time">${date} ${time}</div>
                 </div>
-                <div class="history-time">${date} ${time}</div>
+                <button class="history-delete-btn" title="履歴を削除">
+                    <i class="fas fa-times"></i>
+                </button>
             `;
             
-            historyItem.addEventListener('click', () => this.loadChat(chat));
+            // チャット読み込みイベント
+            const historyContent = historyItem.querySelector('.history-content');
+            historyContent.addEventListener('click', () => this.loadChat(chat));
+            
+            // 削除ボタンイベント
+            const deleteBtn = historyItem.querySelector('.history-delete-btn');
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // イベントバブリングを防ぐ
+                this.deleteChatHistory(chat.id);
+            });
+            
             this.historyList.appendChild(historyItem);
         });
+    }
+
+    deleteChatHistory(chatId) {
+        // 削除確認
+        if (!confirm('この履歴を削除しますか？')) {
+            return;
+        }
+
+        // 履歴配列から削除
+        this.chatHistory = this.chatHistory.filter(chat => chat.id !== chatId);
+        
+        // ローカルストレージを更新
+        localStorage.setItem('rai_chat_history', JSON.stringify(this.chatHistory));
+        
+        // 表示を更新
+        this.updateHistoryDisplay();
+        
+        // 削除したチャットが現在表示中の場合は新規チャットに切り替え
+        if (this.currentChatId === chatId) {
+            this.startNewChat();
+        }
+    }
+
+    clearAllHistory() {
+        // 全削除確認
+        if (!confirm('すべてのチャット履歴を削除しますか？\nこの操作は元に戻せません。')) {
+            return;
+        }
+
+        // 履歴を完全にクリア
+        this.chatHistory = [];
+        
+        // ローカルストレージをクリア
+        localStorage.removeItem('rai_chat_history');
+        
+        // 表示を更新
+        this.updateHistoryDisplay();
+        
+        // 新規チャットに切り替え
+        this.startNewChat();
     }
 
     loadChat(chatData) {

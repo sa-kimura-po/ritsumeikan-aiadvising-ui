@@ -148,13 +148,41 @@ body {
     overflow: hidden;
 }
 
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+
 .chat-history h3 {
     font-size: 16px;
     font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: 16px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--border-color);
+    margin: 0;
+}
+
+.clear-all-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.clear-all-btn:hover {
+    background: #dc3545;
+    color: var(--white);
+    transform: scale(1.05);
 }
 
 .history-list {
@@ -169,6 +197,9 @@ body {
     cursor: pointer;
     transition: all 0.2s ease;
     border-left: 3px solid transparent;
+    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .history-item:hover {
@@ -176,9 +207,27 @@ body {
     border-left-color: var(--ritsumeikan-red);
 }
 
+.history-item:hover .history-delete-btn {
+    opacity: 1;
+    visibility: visible;
+}
+
 .history-item.active {
     background: var(--light-gray);
     border-left-color: var(--ritsumeikan-red);
+}
+
+.history-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
 }
 
 .history-title {
@@ -187,11 +236,39 @@ body {
     color: var(--text-primary);
     margin-bottom: 4px;
     line-height: 1.4;
+    flex: 1;
 }
 
 .history-time {
     font-size: 12px;
     color: var(--text-secondary);
+}
+
+.history-delete-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.history-delete-btn:hover {
+    background: #dc3545;
+    color: var(--white);
+    transform: scale(1.1);
 }
 
 /* チャットコンテナ */
