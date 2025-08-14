@@ -223,36 +223,154 @@ class AIService:
     def _generate_mock_competency_response(self, user_message: str) -> str:
         """モックコンピテンシー評価応答生成"""
         competencies = [
-            {"name": "しなやかさ", "desc": "困難に対する対処力"},
-            {"name": "自発性", "desc": "主体的な学習姿勢"},
-            {"name": "チームワーク", "desc": "協働する力"},
-            {"name": "自己効力感", "desc": "自分への信頼"},
-            {"name": "理解力", "desc": "論理的思考力"},
-            {"name": "マルチタスキング", "desc": "複数課題への対応"},
-            {"name": "共感力", "desc": "他者理解の力"},
-            {"name": "変革力", "desc": "新しい視点の創出"}
+            {
+                "code": "R",
+                "name": "Resilience（しなやかさ）",
+                "desc": "困ったことや失敗したことから学び立ち直る力"
+            },
+            {
+                "code": "I", 
+                "name": "Initiative（自発性）",
+                "desc": "自分で自分の目標を決め、あきらめることなく取り組む"
+            },
+            {
+                "code": "T",
+                "name": "Teamwork（チームワーク）", 
+                "desc": "目的を達成するために他の人と協力する"
+            },
+            {
+                "code": "S",
+                "name": "Self-efficacy（自己効力感）",
+                "desc": "自分ならどういうふうに問題解決し、自分を信じる感覚"
+            },
+            {
+                "code": "U",
+                "name": "Understanding（理解力）",
+                "desc": "科学的に物事を理解する"
+            },
+            {
+                "code": "M",
+                "name": "Multitasking（マルチタスキング）",
+                "desc": "複数の課題にバランスよく取り組む"
+            },
+            {
+                "code": "E",
+                "name": "Empathy（共感力）", 
+                "desc": "他人の気持ちを想像して、その心に寄り添う"
+            },
+            {
+                "code": "C",
+                "name": "Innovation（変革力）",
+                "desc": "新しい考え方で、物事に変化を生み出す"
+            }
         ]
         
-        # ランダムに2-3個のコンピテンシーを選択
-        selected = random.sample(competencies, random.randint(2, 3))
+        # ランダムに3-4個のコンピテンシーを選択
+        selected = random.sample(competencies, random.randint(3, 4))
         
+        # 成し遂げたことの例を生成
+        achievements = [
+            "授業でのグループワークにおいて、チームメンバーとの協働を通じて課題解決に取り組んだこと",
+            "ピアサポートの理論を学び、実際の支援場面で活用しようとする意識を持ったこと", 
+            "他者の意見を聞きながら、自分なりの考えを整理し表現できるようになったこと",
+            "授業での学びを振り返り、今後の学習目標を明確に設定したこと",
+            "困難な状況でも諦めずに解決策を模索する姿勢を示したこと"
+        ]
+        
+        # 分岐点の例を生成
+        turning_points = [
+            "グループディスカッションで多様な意見に触れたことが、自分の考えを深める契機となった",
+            "授業での体験学習が、理論と実践の結びつきを理解する分岐点となった",
+            "他の学生との意見交換が、新しい視点を獲得するきっかけとなった",
+            "教員からのフィードバックが、自己省察を深める機会となった"
+        ]
+        
+        # アドバイスの例を生成
+        advice_topics = [
+            ("継続的な学習の深化", "今回の学びをさらに深めるために、関連する文献や資料に積極的に触れることをおすすめします"),
+            ("実践的な経験の積み重ね", "学んだ理論を実際の場面で活用する機会を積極的に作ることで、より深い理解につながります"),
+            ("他者との協働スキル向上", "グループワークや話し合いの場面で、より効果的なコミュニケーションを意識してみてください"),
+            ("自己省察の習慣化", "定期的に自分の学習や成長を振り返る時間を設けることで、さらなる発展が期待されます")
+        ]
+        
+        # レスポンス生成
         response = "【コンピテンシー評価結果】\n\n"
-        response += "入力いただいた内容から、以下のコンピテンシーが特に発揮されていると評価されました：\n\n"
         
-        for comp in selected:
-            score = random.randint(3, 5)  # 3-5点でランダム
-            stars = "★" * score + "☆" * (5 - score)
-            response += f"◆ {comp['name']} {stars} ({score}/5)\n"
+        # ①エピソード分析
+        response += "①入力いただいた内容から以下のエピソードが分析されます。\n"
+        response += "● 成し遂げたこととその達成度\n"
+        selected_achievements = random.sample(achievements, 2)
+        for achievement in selected_achievements:
+            response += f"- {achievement}。\n"
         
-        response += f"\n【総評】\n"
-        response += f"今回の授業での学びや気づきから、特に「{selected[0]['name']}」が高く評価されます。"
-        response += "継続的な学習と振り返りにより、さらなるコンピテンシーの向上が期待されます。\n\n"
+        response += "\n● 成し遂げたことに至るための分岐点\n"
+        selected_turning_points = random.sample(turning_points, 2)
+        for turning_point in selected_turning_points:
+            response += f"- {turning_point}。\n"
         
-        response += "【今後の学習へのアドバイス】\n"
-        response += "次回も授業での学びを積極的に言語化し、自己成長につなげていきましょう。"
-        response += "特に他者との対話を通じて、新たな気づきを得ることを意識してみてください。"
+        # ②コンピテンシー評価
+        response += "\n②入力いただいた内容から、以下のコンピテンシーが特に発揮されていると評価されました\n"
+        
+        for i, comp in enumerate(selected):
+            prefix = f"{i+1}." if i == 0 else "◆"
+            response += f"{prefix}({comp['code']}): {comp['name']}\n"
+            response += f"- {self._generate_competency_detail(comp, user_message)}\n\n"
+        
+        # 総評
+        response += "【総評】\n"
+        selected_advice = random.choice(advice_topics)
+        response += f"● {selected_advice[0]}\n"
+        response += f"- {selected_advice[1]}。\n"
+        response += "- また、学んだことを他の学生と共有することで、相互の学習効果を高めることができます。"
         
         return response
+    
+    def _generate_competency_detail(self, competency: dict, user_message: str) -> str:
+        """コンピテンシー詳細説明を生成"""
+        details = {
+            "R": [
+                "困難な状況に直面しても諦めずに取り組む姿勢を示した",
+                "挫折や失敗を学習の機会として捉える柔軟性を発揮した",
+                "新しい環境や課題に対して適応力を示した"
+            ],
+            "I": [
+                "自分なりの学習目標を明確に設定し、それに向けて積極的に取り組む意欲を示した",
+                "授業の内容を受け身で聞くだけでなく、主体的に学習に参加する姿勢を見せた",
+                "自ら課題を見つけ、解決に向けて行動を起こす自発性を発揮した"
+            ],
+            "T": [
+                "グループワークや協働学習において、他のメンバーと効果的に連携した",
+                "チーム目標の達成に向けて、自分の役割を理解し責任を持って行動した",
+                "他者の意見を尊重しながら、建設的な議論に参加した"
+            ],
+            "S": [
+                "自分の能力や判断に対して適切な自信を持ち、積極的に学習に取り組んだ",
+                "困難な課題に対しても「やればできる」という前向きな姿勢を示した",
+                "自分なりの方法で問題解決に取り組む意欲を見せた"
+            ],
+            "U": [
+                "授業内容を論理的に整理し、体系的に理解しようとする姿勢を示した",
+                "複雑な概念や理論を、具体例と関連付けて理解する能力を発揮した",
+                "学んだ内容を批判的に検討し、deeper understanding を目指した"
+            ],
+            "M": [
+                "複数の学習課題を同時に管理し、バランスよく取り組む能力を示した",
+                "時間管理や優先順位付けを適切に行い、効率的な学習を実践した",
+                "異なる視点や課題を統合的に捉える能力を発揮した"
+            ],
+            "E": [
+                "他の学生や教員の気持ちや立場を理解し、適切に配慮した行動を取った",
+                "相手の表情や言動から感情を読み取り、共感的な対応を示した",
+                "多様な価値観や考え方を受け入れる開放性を発揮した"
+            ],
+            "C": [
+                "従来の考え方にとらわれず、新しい視点から物事を捉えようとした",
+                "創意工夫を凝らし、独自の解決策やアプローチを提案した",
+                "現状に満足せず、より良い方法や改善策を模索する姿勢を示した"
+            ]
+        }
+        
+        return random.choice(details.get(competency["code"], ["学習への積極的な取り組みを示した"]))
     
     def _generate_mock_general_response(self, user_message: str) -> str:
         """モック一般チャット応答生成"""
