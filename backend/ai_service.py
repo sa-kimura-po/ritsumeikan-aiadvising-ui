@@ -221,107 +221,110 @@ class AIService:
 """
     
     def _generate_mock_competency_response(self, user_message: str) -> str:
-        """モックコンピテンシー評価応答生成"""
-        competencies = [
-            {
+        """モックコンピテンシー評価応答生成（実際の入力内容に基づく）"""
+        # 入力内容の分析
+        message_lower = user_message.lower()
+        
+        # 発揮されているコンピテンシーを入力内容から判定
+        competencies = []
+        
+        # しなやかさ（困難・不安・失敗への対応）
+        if any(word in message_lower for word in ["不安", "困っ", "難し", "失敗", "うまくいかない", "ついていけない"]):
+            competencies.append({
                 "code": "R",
                 "name": "Resilience（しなやかさ）",
-                "desc": "困ったことや失敗したことから学び立ち直る力"
-            },
-            {
-                "code": "I", 
-                "name": "Initiative（自発性）",
-                "desc": "自分で自分の目標を決め、あきらめることなく取り組む"
-            },
-            {
-                "code": "T",
-                "name": "Teamwork（チームワーク）", 
-                "desc": "目的を達成するために他の人と協力する"
-            },
-            {
-                "code": "S",
+                "desc": "困難な状況に向き合い、課題を認識する力を示しています"
+            })
+        
+        # 自己効力感（自分の状況を客観視）
+        if any(word in message_lower for word in ["自分", "意見", "考え", "振り返り", "反省"]):
+            competencies.append({
+                "code": "S", 
                 "name": "Self-efficacy（自己効力感）",
-                "desc": "自分ならどういうふうに問題解決し、自分を信じる感覚"
-            },
-            {
-                "code": "U",
-                "name": "Understanding（理解力）",
-                "desc": "科学的に物事を理解する"
-            },
-            {
-                "code": "M",
-                "name": "Multitasking（マルチタスキング）",
-                "desc": "複数の課題にバランスよく取り組む"
-            },
-            {
+                "desc": "自分の現状を客観的に把握し、課題を認識する自己理解力を発揮しています"
+            })
+        
+        # チームワーク（グループワーク・ペアワーク参加）
+        if any(word in message_lower for word in ["ペア", "グループ", "チーム", "授業", "参加", "一緒"]):
+            competencies.append({
+                "code": "T",
+                "name": "Teamwork（チームワーク）",
+                "desc": "授業でのペアワークに参加し、協働学習の場に身を置く姿勢を示しています"
+            })
+        
+        # 共感力（他者や環境への配慮・観察）
+        if any(word in message_lower for word in ["エアコン", "寒い", "環境", "教室", "周り", "他の人"]):
+            competencies.append({
                 "code": "E",
-                "name": "Empathy（共感力）", 
-                "desc": "他人の気持ちを想像して、その心に寄り添う"
-            },
-            {
-                "code": "C",
-                "name": "Innovation（変革力）",
-                "desc": "新しい考え方で、物事に変化を生み出す"
-            }
-        ]
+                "name": "Empathy（共感力）",
+                "desc": "学習環境や周囲の状況に対する気づきと配慮を示しています"
+            })
         
-        # ランダムに3-4個のコンピテンシーを選択
-        selected = random.sample(competencies, random.randint(3, 4))
+        # コンピテンシーが見つからない場合のデフォルト
+        if not competencies:
+            competencies = [
+                {
+                    "code": "R",
+                    "name": "Resilience（しなやかさ）",
+                    "desc": "現在の状況に向き合う姿勢を示しています"
+                },
+                {
+                    "code": "S",
+                    "name": "Self-efficacy（自己効力感）",
+                    "desc": "自己省察と課題認識を行う力を発揮しています"
+                }
+            ]
         
-        # 成し遂げたことの例を生成
-        achievements = [
-            "授業でのグループワークにおいて、チームメンバーとの協働を通じて課題解決に取り組んだこと",
-            "ピアサポートの理論を学び、実際の支援場面で活用しようとする意識を持ったこと", 
-            "他者の意見を聞きながら、自分なりの考えを整理し表現できるようになったこと",
-            "授業での学びを振り返り、今後の学習目標を明確に設定したこと",
-            "困難な状況でも諦めずに解決策を模索する姿勢を示したこと"
-        ]
+        # 最大3個まで選択
+        selected = competencies[:3]
         
-        # 分岐点の例を生成
-        turning_points = [
-            "グループディスカッションで多様な意見に触れたことが、自分の考えを深める契機となった",
-            "授業での体験学習が、理論と実践の結びつきを理解する分岐点となった",
-            "他の学生との意見交換が、新しい視点を獲得するきっかけとなった",
-            "教員からのフィードバックが、自己省察を深める機会となった"
-        ]
-        
-        # アドバイスの例を生成
-        advice_topics = [
-            ("継続的な学習の深化", "今回の学びをさらに深めるために、関連する文献や資料に積極的に触れることをおすすめします"),
-            ("実践的な経験の積み重ね", "学んだ理論を実際の場面で活用する機会を積極的に作ることで、より深い理解につながります"),
-            ("他者との協働スキル向上", "グループワークや話し合いの場面で、より効果的なコミュニケーションを意識してみてください"),
-            ("自己省察の習慣化", "定期的に自分の学習や成長を振り返る時間を設けることで、さらなる発展が期待されます")
-        ]
+        # 入力内容に基づく現状分析
+        situation_analysis = self._analyze_learning_situation(user_message)
         
         # レスポンス生成
-        response = "コンピテンシー評価結果\n\n"
+        response = "【コンピテンシー評価結果】\n\n"
         
-        # 【1】エピソード分析
-        response += "【1】入力内容から以下のエピソードが分析されました。\n"
-        response += "● 成し遂げたこととその達成度\n"
-        selected_achievements = random.sample(achievements, 2)
-        for achievement in selected_achievements:
-            response += f"- {achievement}。\n"
-        
-        response += "\n● 成し遂げたことに至るための分岐点\n"
-        selected_turning_points = random.sample(turning_points, 2)
-        for turning_point in selected_turning_points:
-            response += f"- {turning_point}。\n"
-        
-        # 【2】コンピテンシー評価
-        response += "\n【2】入力内容から、以下のコンピテンシーが特に発揮されていると評価されました。\n"
-        
-        for comp in selected:
-            response += f"◆({comp['code']}): {comp['name']}\n"
-            response += f"- {self._generate_competency_detail(comp, user_message)}\n\n"
+        # コンピテンシー評価
+        for i, comp in enumerate(selected, 1):
+            score = random.randint(3, 4)  # 現実的なスコア範囲
+            stars = "★" * score + "☆" * (5 - score)
+            response += f"◆ {comp['name']} {stars} ({score}/5)\n"
+            response += f"・{comp['desc']}\n\n"
         
         # 総評
         response += "【総評】\n"
-        selected_advice = random.choice(advice_topics)
-        response += f"■{selected_advice[0]}\n"
-        response += f"- {selected_advice[1]}。"
+        response += situation_analysis["summary"] + "\n\n"
+        
+        # 今後のアドバイス
+        response += "【今後の学習へのアドバイス】\n"
+        response += situation_analysis["advice"]
         
         return response
+    
+    def _analyze_learning_situation(self, user_message: str) -> dict:
+        """学習状況の分析とアドバイス生成"""
+        message_lower = user_message.lower()
+        
+        # 不安・困難に関する内容
+        if any(word in message_lower for word in ["不安", "ついていけない", "困っ"]):
+            return {
+                "summary": "入学から間もない時期に感じる不安は自然なことです。現在の状況を正直に振り返り、課題を認識できていることは、今後の成長につながる重要な第一歩です。",
+                "advice": "・授業でわからないことは、遠慮せずに教員やクラスメートに質問してみましょう\n・ペアワークでは、まず相手の話をよく聞くことから始めてみてください\n・少しずつでも発言する機会を増やしていくことで、自信につながります"
+            }
+        
+        # コミュニケーション・発言に関する内容
+        elif any(word in message_lower for word in ["意見", "言え", "話", "発言"]):
+            return {
+                "summary": "ペアワークで自分の意見を表現することの難しさを感じていらっしゃいますね。この気づき自体が、コミュニケーション能力向上への第一歩となります。",
+                "advice": "・相手の話に「うなずき」や「そうですね」といった相槌から始めてみましょう\n・「私はこう思うのですが、どうでしょうか？」と相手の意見も求める表現を使ってみてください\n・完璧な意見でなくても、自分なりの感想を伝えることから始めましょう"
+            }
+        
+        # 一般的なケース
+        else:
+            return {
+                "summary": "授業での体験を丁寧に振り返り、学習環境にも気を配る観察力を示されています。このような細やかな気づきは、今後の学習に活かせる貴重な資質です。",
+                "advice": "・今回の気づきを次回の授業で活かしてみてください\n・小さな変化や成長も大切にし、継続的な学習を心がけましょう\n・疑問や困ったことがあれば、積極的にサポートを求めることも重要です"
+            }
     
     def _generate_competency_detail(self, competency: dict, user_message: str) -> str:
         """コンピテンシー詳細説明を生成"""
